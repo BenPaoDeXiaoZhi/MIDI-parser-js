@@ -92,7 +92,8 @@ function compile(dat){
           if(delta){
             ret += "\xf0" + delta.toString(16).padStart(4,"0");
           }
-          ret += args[0].toString(16).padStart(2,"0") + 
+          ret += "\xf1" + 
+                   args[0].toString(16).padStart(2,"0") + 
                   args[1].toString(16).padStart(2,"0")
       }
     }
