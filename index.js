@@ -70,7 +70,7 @@ form.addEventListener("submit", (e)=>{
 })
 
 function compile(dat){
-  let ret = "";
+  let ret = "\xffT"+dat.tpb.toString(16).padStart(4,"0");
   if(dat.tracks==1){
     const track = dat.trackDat[0]
     for(const cmd of track.commands){
@@ -90,7 +90,7 @@ function compile(dat){
           break
         case "90":
           if(delta){
-            ret += "\x00" + delta.toString(16).padStart(6,"0");
+            ret += "\x00" + delta.toString(16).padStart(4,"0");
           }
           ret += String.fromCharCode(args[0]) + String.fromCharCode(args[1])
       }
