@@ -6,7 +6,7 @@ class PointerView{
     this.pointer = 0;
   }
   readAscii(bytes=1){
-    const ret = "";
+    let ret = "";
     for(const end=this.pointer+bytes; this.pointer<end; this.pointer++){
       ret += String.fromCharCode(this.view.getUint8(this.pointer));
     }
