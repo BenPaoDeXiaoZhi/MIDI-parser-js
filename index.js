@@ -115,6 +115,7 @@ function readDelta(view){
   while(1){
     const time = view.readUint8();
     delta = delta << 7 + time & mask;
+    console.log(time);
     if(!time>>7){ // 0xxxxxxx
       break
     }
