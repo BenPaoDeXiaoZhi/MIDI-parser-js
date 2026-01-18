@@ -73,7 +73,7 @@ function compile(dat){
   let ret = "";
   if(dat.tracks==1){
     const track = dat.trackDat[0]
-    for(const cmd in track.commands){
+    for(const cmd of track.commands){
       const {type, metaType, args} = cmd;
       console.log(cmd)
       switch(type){
