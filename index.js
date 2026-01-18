@@ -5,15 +5,6 @@ const CHUNK_TYPES = {
   MThd:HEADER_CHUNK,
   MTrk:TRACK_CHUNK
 };
-const ARG_NUMS = {
-  8:2,
-  9:2,
-  a:2,
-  b:2,
-  c:1,
-  d:1,
-  e:2
-}
 
 class PointerView{
   constructor(buffer){
@@ -92,7 +83,7 @@ function readChunk(view, config){
     config.tracks = chunk.tracks;
   }
   else if(chunk.type == TRACK_CHUNK){
-    chunk.commands.push(readCommand(view));
+     chunk.commands.push(readCommand(view));
   }
   return chunk;
 }
@@ -130,7 +121,7 @@ function readCommand(view){
     delta,
     args
   }
-  console.log(command);
+  return command;
 }
 
 function readDelta(view){
