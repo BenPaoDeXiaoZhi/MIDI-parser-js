@@ -16,16 +16,19 @@ class PointerView{
 
 const form = document.getElementById("form");
 const input = document.getElementById("input");
-form.addEventListener("submit", async(e)=>{
+form.addEventListener("submit", (e)=>{
   e.preventDefault();
   const file = input.files[0];
   if(!!!file){
     alert("pls select file!");
   }
   console.log(file);
-  const arrayBuffer = await file.arrayBuffer();
-  const view = new PointerView(arrayBuffer);
-  console.log(view, view.readAscii(4));
+  file.arrayBuffer().then(parse);
 })
+
+function parse(buf){
+  const view = new PointerView(buf);
+  console.log(view, view.readAscii(4));
+}
 
 })()
