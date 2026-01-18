@@ -53,7 +53,8 @@ function parse(buf){
     delay: null,
     tracks: null,
   }
-  console.log(view, readChunk(view, config));
+  console.log(readChunk(view, config));
+  console.log(readChunk(view, config));
 }
 
 function readChunk(view, config){
@@ -79,14 +80,13 @@ function readChunk(view, config){
 }
 
 function readHeader(view, chunk){
-  console.log("hd",chunk);
   chunk.format = view.readUint16();
   chunk.tracks = view.readUint16();
   chunk.time = view.readUint16();
   console.log(chunk.time.toString(2).padStart("0",16));
   if(chunk.time >> 15 == 0){
     chunk.tpb = chunk.time;
-    chunk.delay = 5/tpb;
+    chunk.delay = 5/chunk.tpb;
   }
   return chunk;
 }
