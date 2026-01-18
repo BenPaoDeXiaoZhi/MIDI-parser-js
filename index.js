@@ -133,7 +133,7 @@ function readCommand(view){
     view.pointer--;
   }
   else{ // meta
-    metaType = view.readUint8();
+    metaType = view.readHex(1);
     const length=view.readUint8();
     for(let i=0;i<length;i++){
       args.push(view.readUint8());
