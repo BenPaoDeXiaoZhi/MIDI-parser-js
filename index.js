@@ -1,3 +1,5 @@
+(()=>{
+
 alert("init");
 const form = document.getElementById("form");
 const input = document.getElementById("input");
@@ -10,3 +12,5 @@ form.addEventListener("submit", (e)=>{
   console.log(file);
 })
 alert("end");
+
+})()
