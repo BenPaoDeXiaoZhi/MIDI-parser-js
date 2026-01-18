@@ -49,10 +49,14 @@ form.addEventListener("submit", (e)=>{
 
 function parse(buf){
   const view = new PointerView(buf);
-  console.log(view, readChunk(view));
+  const config = {
+    delay: null,
+    tracks: null,
+  }
+  console.log(view, readChunk(view, config));
 }
 
-function readChunk(view){
+function readChunk(view, config){
   const chunk = {
     type: null,
     length: null,
@@ -61,7 +65,15 @@ function readChunk(view){
   chunk.type = CHUNK_TYPES[typeId];
   chunk.length = view.readUint32();
   if(chunk.type == HEADER_CHUNK){
+    if(config.delay){
+      throw new Error("too many headers");
+    }
     readHeader(view, chunk);
+    config.delay = chunk.delay;
+    config.tracks = chunk.tracks;
+  }
+  else if(chunk.type == TRACK_CHUNK){
+    readCommand(view);
   }
   return chunk;
 }
@@ -71,11 +83,21 @@ function readHeader(view, chunk){
   chunk.format = view.readUint16();
   chunk.tracks = view.readUint16();
   chunk.time = view.readUint16();
-  console.log(chunk.time.toString(2).padStart("0",16))
+  console.log(chunk.time.toString(2).padStart("0",16));
   if(chunk.time >> 15 == 0){
-    chunk.tpb = chunk.time
+    chunk.tpb = chunk.time;
+    chunk.delay = 5/tpb;
   }
   return chunk;
+}
+
+function readCommand(view){
+  const command = {
+    type: null,
+  }
+  let type;
+  for(;type;type=view.readUint8()){}
+  console.log(type, view.readUint8());
 }
 
 })()
