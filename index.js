@@ -114,10 +114,9 @@ function readCommand(view){
   const type = view.readHex(1);
   const args = [];
   if(type[0] != "f"){
-    for(let arg=view.readUint8();arg < 0x7f;arg=view.readUint8()){
-      args.push(arg);
+    for(let i=0;i<BYTE_NUMS[type[0]];i++){
+      args.push(view.readUint8());
     }
-    view.pointer--;
   }
   else if(type == "f0"){
     for(let arg=view.readUint8();arg != 0xf7;arg=view.readUint8()){
