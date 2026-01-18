@@ -75,6 +75,7 @@ function compile(dat){
     const track = dat.trackDat[0]
     for(const cmd in track.commands){
       const {type, metaType, args} = cmd;
+      console.log(cmd)
       switch(type){
         case "ff":
           if(metaType == "51"){
@@ -127,7 +128,6 @@ function readChunk(view, config){
   else if(chunk.type == TRACK_CHUNK){
     while(1){
       const cmd=readCommand(view);
-      console.log(cmd);
       chunk.commands.push(cmd);
       if(cmd.metaType=="2f"){
         break;
