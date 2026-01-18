@@ -61,7 +61,7 @@ function readChunk(view){
   return chunk;
 }
 
-readHeader(view, chunk){
+function readHeader(view, chunk){
   console.log("hd",chunk);
   chunk.format = view.readUint8();
   return chunk;
