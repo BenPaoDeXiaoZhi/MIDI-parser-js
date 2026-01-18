@@ -42,7 +42,7 @@ function parse(buf){
   console.log(view, readChunk(view));
 }
 
-function readChunck(view){
+function readChunk(view){
   const chunk = {
     type: null,
     length: null,
