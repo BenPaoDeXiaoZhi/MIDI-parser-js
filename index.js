@@ -70,7 +70,7 @@ form.addEventListener("submit", (e)=>{
 })
 
 function compile(dat){
-  let ret = "T"+dat.tpb.toString(16).padStart(4,"0");
+  let ret = `const TPB = ${dat.tpb};\n`
   if(dat.tracks==1){
     const track = dat.trackDat[0]
     for(const cmd of track.commands){
@@ -84,17 +84,14 @@ function compile(dat){
               (args[1] << 8)  +
               args[2]
             console.log(usPerBeat)
-            ret += ",B" + 
-                   usPerBeat.toString(16).padStart(6,"0");
+            ret += `music.setTempo(60/${usPerBeat/(1000**2)});\n`
           }
           break
         case "90":
           if(delta){
-            ret += ",W" + delta.toString(16).padStart(4,"0");
+            ret += `basic.pause(music.beat(${delta} / TPB));\n`
           }
-          ret += ",R" + 
-                   args[0].toString(16).padStart(2,"0") + 
-                  args[1].toString(16).padStart(2,"0")
+          ret += `music.play(music.tonePlayable(${2 ** ((args[0]-64) / 12) * 440}, music.beat()),music.PlaybackMode.InBackground);\n`
       }
     }
   }
