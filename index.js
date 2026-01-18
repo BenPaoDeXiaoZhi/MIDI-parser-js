@@ -78,6 +78,7 @@ function readChunk(view, config){
   const chunk = {
     type: null,
     length: null,
+    commands: []
   };
   const typeId = view.readAscii(4);
   chunk.type = CHUNK_TYPES[typeId];
@@ -91,7 +92,7 @@ function readChunk(view, config){
     config.tracks = chunk.tracks;
   }
   else if(chunk.type == TRACK_CHUNK){
-    readCommand(view);
+    commands.push(readCommand(view));
   }
   return chunk;
 }
@@ -112,12 +113,17 @@ function readCommand(view){
   const delta = readDelta(view);
   const type = view.readHex(1);
   const args = [];
-  if(ARG_NUMS[type[0]]){
-    for(let i=0;i<ARG_NUMS[type[0]];i++){
-      args.push(view.readUint8());
+  if(type != "ff"){
+    for(let arg=view.readUint8();arg < 0x7f;arg=view.readUint8()){
+      args.push(arg);
     }
-  }else{
-    throw new Error(type,delta,view.readHex(10))
+    view.pointer--
+  }
+  else{ // meta
+    for(let arg=view.readUint8();arg < 0x7f;arg=view.readUint8()){
+      args.push(arg);
+    }
+    view.pointer--
   }
   const command = {
     type,
