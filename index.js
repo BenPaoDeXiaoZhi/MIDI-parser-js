@@ -92,7 +92,13 @@ function readChunk(view, config){
     config.tracks = chunk.tracks;
   }
   else if(chunk.type == TRACK_CHUNK){
-     chunk.commands.push(readCommand(view));
+    while(1){
+      const cmd=readCommand(view);
+      chunk.commands.push(cmd);
+      if(cmd.type=="ff"){
+        break;
+      }
+    }
   }
   return chunk;
 }
