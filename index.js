@@ -14,7 +14,7 @@ class PointerView{
   
   readAscii(bytes=1){
     let ret = "";
-    for(const i=0; i<bytes; i++){
+    for(let i=0; i<bytes; i++){
       ret += String.fromCharCode(this.readUint8());
     }
     return ret;
