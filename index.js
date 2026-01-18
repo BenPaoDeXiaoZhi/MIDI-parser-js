@@ -91,7 +91,12 @@ function compile(dat){
           if(delta){
             ret += `basic.pause(music.beat() * ${delta} / TPB);\n`
           }
-          ret += `music.play(music.tonePlayable(${2 ** ((args[0]-64) / 12) * 440}, music.beat()),music.PlaybackMode.InBackground);\n`
+          if(args[1] > 20){
+            ret += `music.ringTone(${2 ** ((args[0]-64) / 12) * 440});\n`
+          }
+          else{
+            ret += "music.stopAllSounds();\n"
+          }
       }
     }
   }
