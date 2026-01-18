@@ -96,7 +96,7 @@ function readCommand(view){
     type: null,
   }
   let type;
-  for(;type;type=view.readUint8()){}
+  for(;!type;type=view.readUint8()){}
   console.log(type, view.readUint8());
 }
 
