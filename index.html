@@ -5,14 +5,23 @@
   </head>
   <form id="form">
     <label id="upload">
-      upload file
-      <input type="file">
+      <span id="tip">upload file</span>
+      <input type="file" id="input">
     </label>
     <label id="submit">
       parse
       <input type="submit">
     </label>
   </form>
+  <script>
+    const tip=document.getElementById("tip");
+    const input=document.getElementById("input");
+    input.addEventListener("change",(e)=>{
+      e.stopPropagation();
+      const file = input.files[0]
+      tip.innerText = `upload file(${file.name})`;
+    })
+  </script>
   <style>
     input {
       display: none;
@@ -22,6 +31,7 @@
       padding: 0.5em;
       border: blue 1px;
       border-radius: 5px;
+      display: block;
     }
 
     #upload {
