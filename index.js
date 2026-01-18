@@ -95,7 +95,7 @@ function readChunk(view, config){
     while(1){
       const cmd=readCommand(view);
       chunk.commands.push(cmd);
-      if(cmd.type=="ff"){
+      if(cmd.metaType=="2f"){
         break;
       }
     }
@@ -117,8 +117,9 @@ function readHeader(view, chunk){
 
 function readCommand(view){
   const delta = readDelta(view);
-  const type = view.readHex(1);
+  let type = view.readHex(1);
   const args = [];
+  let metaType;
   if(type[0] != "f"){
     for(let i=0;i<BYTE_NUMS[type[0]];i++){
       args.push(view.readUint8());
@@ -131,15 +132,17 @@ function readCommand(view){
     view.pointer--;
   }
   else{ // meta
-    for(let arg=view.readUint8();arg < 0x7f;arg=view.readUint8()){
-      args.push(arg);
+    metaType = view.readUint8();
+    const length=view.readUint8();
+    for(let i=0;i<length;i++){
+      args.push(view.readUint8());
     }
-    view.pointer--
   }
   const command = {
     type,
     delta,
-    args
+    args,
+    metaType
   }
   return command;
 }
