@@ -83,6 +83,7 @@ function compile(dat){
               args[0] << 16 +
               args[1] << 8  +
               args[2]
+            console.log(usPerBeat)
             ret += "\xffB" + 
                    usPerBeat.toString(16).padStart(6,"0");
           }
