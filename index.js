@@ -74,7 +74,7 @@ function compile(dat){
   if(dat.tracks==1){
     const track = dat.trackDat[0]
     for(const cmd of track.commands){
-      const {type, metaType, args} = cmd;
+      const {type, metaType, args, delta} = cmd;
       console.log(cmd)
       switch(type){
         case "ff":
@@ -88,6 +88,11 @@ function compile(dat){
                    usPerBeat.toString(16).padStart(6,"0");
           }
           break
+        case "90":
+          if(delta){
+            ret += "\x00" + delta.toString(16).padStart(6,"0");
+          }
+          ret += String.fromCharCode(args[0]) + String.fromCharCode(args[1])
       }
     }
   }
