@@ -5,6 +5,15 @@ const CHUNK_TYPES = {
   MThd:HEADER_CHUNK,
   MTrk:TRACK_CHUNK
 };
+const BYTE_NUMS = {
+  8: 2,
+  9: 2,
+  a: 2,
+  b: 2,
+  c: 1,
+  d: 1,
+  e: 2
+}
 
 class PointerView{
   constructor(buffer){
@@ -104,11 +113,17 @@ function readCommand(view){
   const delta = readDelta(view);
   const type = view.readHex(1);
   const args = [];
-  if(type != "ff"){
+  if(type[0] != "f"){
     for(let arg=view.readUint8();arg < 0x7f;arg=view.readUint8()){
       args.push(arg);
     }
-    view.pointer--
+    view.pointer--;
+  }
+  else if(type == "f0"){
+    for(let arg=view.readUint8();arg != 0xf7;arg=view.readUint8()){
+      args.push(arg);
+    }
+    view.pointer--;
   }
   else{ // meta
     for(let arg=view.readUint8();arg < 0x7f;arg=view.readUint8()){
