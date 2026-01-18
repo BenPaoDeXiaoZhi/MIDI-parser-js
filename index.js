@@ -90,7 +90,7 @@ function compile(dat){
           break
         case "90":
           if(delta){
-            ret += "\x00" + delta.toString(16).padStart(4,"0");
+            ret += "\xf0" + delta.toString(16).padStart(4,"0");
           }
           ret += String.fromCharCode(args[0]) + String.fromCharCode(args[1])
       }
