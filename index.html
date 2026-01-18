@@ -2,48 +2,49 @@
 <html>
   <head>
     <title>MIDI Parser</title>
-    <script src="index.js"></script>
   </head>
-  <form id="form">
-    <label id="upload">
-      <span id="tip">upload file</span>
-      <input type="file" id="input">
-    </label>
-    <label id="submit">
-      parse
-      <input type="submit">
-    </label>
-  </form>
-  <script>
-    const tip=document.getElementById("tip");
-    const input=document.getElementById("input");
-    input.addEventListener("change",(e)=>{
-      e.stopPropagation();
-      const file = input.files[0]
-      tip.innerText = `upload file(${file.name})`;
-    })
-  </script>
-  <style>
-    input {
-      display: none;
-    }
+  <body>
+    <form id="form">
+      <label id="upload">
+        <span id="tip">upload file</span>
+        <input type="file" id="input">
+      </label>
+      <label id="submit">
+        parse
+        <input type="submit">
+      </label>
+    </form>
+    <script>
+      const tip=document.getElementById("tip");
+      const input=document.getElementById("input");
+      input.addEventListener("change",(e)=>{
+        e.stopPropagation();
+        const file = input.files[0]
+        tip.innerText = `upload file(${file.name})`;
+      })
+    </script>
+    <style>
+      input {
+        display: none;
+      }
 
-    label {
-      padding: 0.6em;
-      border: none;
-      border-radius: 0.5em;
-      display: block;
-      margin: 10px;
-    }
+      label {
+        padding: 0.6em;
+        border: none;
+        border-radius: 0.5em;
+        display: block;
+        margin: 10px;
+      }
 
-    #upload {
-      background-color:blue;
-      color: white;
-    }
+      #upload {
+        background-color:blue;
+        color: white;
+      }
 
-    #submit {
-      background-color: green;
-      color: white;
-    }
-  </style>
+      #submit {
+        background-color: green;
+        color: white;
+      }
+    </style>
+  </body>
 </html>
