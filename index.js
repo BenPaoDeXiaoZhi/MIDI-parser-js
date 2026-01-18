@@ -85,7 +85,7 @@ function compile(dat){
               (args[1] << 8)  +
               args[2]
             console.log(usPerBeat);
-            mspb = usPerBeat * 1000;
+            mspb = usPerBeat / 1000;
           }
           break
         case "90":
