@@ -84,15 +84,15 @@ function compile(dat){
               (args[1] << 8)  +
               args[2]
             console.log(usPerBeat)
-            ret += "\xffB" + 
+            ret += ",B" + 
                    usPerBeat.toString(16).padStart(6,"0");
           }
           break
         case "90":
           if(delta){
-            ret += "\xf0" + delta.toString(16).padStart(4,"0");
+            ret += ",W" + delta.toString(16).padStart(4,"0");
           }
-          ret += "\xf1" + 
+          ret += ",R" + 
                    args[0].toString(16).padStart(2,"0") + 
                   args[1].toString(16).padStart(2,"0")
       }
