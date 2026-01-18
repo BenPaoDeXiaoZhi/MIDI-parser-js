@@ -14,14 +14,19 @@ class PointerView{
   
   readAscii(bytes=1){
     let ret = "";
-    for(const end=this.pointer+bytes; this.pointer<end; this.pointer++){
-      ret += String.fromCharCode(this.view.getUint8(this.pointer));
+    for(const i=0; i<bytes; i++){
+      ret += String.fromCharCode(this.readUint8());
     }
     return ret;
   }
   
   readUint32(){
-    return this.view.getUint32(this.pointer++)
+    this.pointer += 4;
+    return this.view.getUint32(this.pointer-4);
+  }
+  
+  readUint8(){
+    return this.view.getUint8(this.pointer++)
   }
 }
 
@@ -50,7 +55,14 @@ function readChunk(view){
   const typeId = view.readAscii(4);
   chunk.type = CHUNK_TYPES[typeId];
   chunk.length = view.readUint32();
-  return chunk
+  if(chunk.type == HEADER_CHUNK){
+    readHeader(view, chunk);
+  }
+  return chunk;
+}
+
+readHeader(view, chunk){
+  chunk.format = view.readUint8();
 }
 
 })()
