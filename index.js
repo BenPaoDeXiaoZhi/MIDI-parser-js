@@ -80,8 +80,8 @@ function compile(dat){
         case "ff":
           if(metaType == "51"){
             const usPerBeat = 
-              args[0] << 16 +
-              args[1] << 8  +
+              (args[0] << 16) +
+              (args[1] << 8)  +
               args[2]
             console.log(usPerBeat)
             ret += "\xffB" + 
