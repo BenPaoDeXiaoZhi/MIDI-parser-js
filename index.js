@@ -54,6 +54,7 @@ class PointerView{
 
 const form = document.getElementById("form");
 const input = document.getElementById("input");
+const result=document.getElementById("result");
 form.addEventListener("submit", (e)=>{
   e.preventDefault();
   const file = input.files[0];
