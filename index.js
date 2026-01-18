@@ -62,17 +62,47 @@ form.addEventListener("submit", (e)=>{
     alert("pls select file!");
   }
   console.log(file);
-  file.arrayBuffer().then(parse);
+  file.arrayBuffer().then(buf=>{
+    const dat=parse(buf);
+    result.value = compile(dat);
+  });
 })
+
+function compile(dat){
+  let ret = "";
+  if(dat.tracks==1){
+    const track = dat.trackDat[0]
+    for(const cmd in track.commands){
+      const {type, metaType, args} = cmd;
+      switch(type){
+        case "ff":
+          if(metaType == "51"){
+            const usPerBeat = 
+              args[0] << 16 +
+              args[1] << 8  +
+              args[2]
+            ret += "\xffB" + 
+                   usPerBeat.toString(16).padStart(6,"0");
+          }
+          break
+      }
+    }
+  }
+  return ret
+}
 
 function parse(buf){
   const view = new PointerView(buf);
   const config = {
-    delay: null,
+    tpb: null,
     tracks: null,
+    trackDat: [],
   }
-  console.log(readChunk(view, config));
-  console.log(readChunk(view, config));
+  readChunk(view, config);
+  for(let i=0;i<config.tracks;i++){
+    trackDat.push(readChunk(view, config))
+  }
+  return config;
 }
 
 function readChunk(view, config){
@@ -89,7 +119,7 @@ function readChunk(view, config){
       throw new Error("too many headers");
     }
     readHeader(view, chunk);
-    config.delay = chunk.delay;
+    config.tpb = chunk.tpb; // 一个四分音符的tick数
     config.tracks = chunk.tracks;
   }
   else if(chunk.type == TRACK_CHUNK){
@@ -111,8 +141,7 @@ function readHeader(view, chunk){
   chunk.time = view.readUint16();
   console.log(chunk.time.toString(2).padStart("0",16));
   if(chunk.time >> 15 == 0){
-    chunk.tpb = chunk.time;
-    chunk.delay = 5/chunk.tpb;
+    chunk.tpb = chunk.time; // tick per beat
   }
   return chunk;
 }
@@ -141,10 +170,10 @@ function readCommand(view){
     }
   }
   const command = {
-    type,
+    type, // str
     delta,
     args,
-    metaType
+    metaType // str
   }
   return command;
 }
