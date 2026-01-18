@@ -64,6 +64,7 @@ form.addEventListener("submit", (e)=>{
   console.log(file);
   file.arrayBuffer().then(buf=>{
     const dat=parse(buf);
+    console.log(dat)
     result.value = compile(dat);
   });
 })
@@ -88,6 +89,7 @@ function compile(dat){
       }
     }
   }
+  console.log(ret);
   return ret
 }
 
@@ -139,7 +141,6 @@ function readHeader(view, chunk){
   chunk.format = view.readUint16();
   chunk.tracks = view.readUint16();
   chunk.time = view.readUint16();
-  console.log(chunk.time.toString(2).padStart("0",16));
   if(chunk.time >> 15 == 0){
     chunk.tpb = chunk.time; // tick per beat
   }
