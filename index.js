@@ -102,10 +102,24 @@ function readHeader(view, chunk){
 function readCommand(view){
   const command = {
     type: null,
+    delta: null,
   }
   let type;
-  for(;!type;type=view.readUint8()){}
-  console.log(type, view.readHex(10));
+  const delta = readDelta(view);
+  console.log(delta, view.readHex(10));
+}
+
+function readDelta(view){
+  let delta=0;
+  const mask = 0xff >> 1 // last 7 bit
+  while(1){
+    const time = view.readUint8();
+    delta = delta << 7 + time & mask;
+    if(time>>7){
+      break
+    }
+  }
+  return delta
 }
 
 })()
