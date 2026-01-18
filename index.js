@@ -90,7 +90,7 @@ function compile(dat){
           break
         case "90":
           if(delta){
-            ret += `basic.pause(${mspb * delta / dat.tpb});\n`
+            ret += `basic.pause(${Math.round(mspb * delta / dat.tpb)});\n`
           }
           if(args[1] > 20){
             ret += `music.ringTone(${Math.round(2 ** ((args[0]-64) / 12) * 440)});\n`
