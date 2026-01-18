@@ -70,7 +70,7 @@ form.addEventListener("submit", (e)=>{
 })
 
 function compile(dat){
-  let ret = "\xffT"+dat.tpb.toString(16).padStart(4,"0");
+  let ret = "T"+dat.tpb.toString(16).padStart(4,"0");
   if(dat.tracks==1){
     const track = dat.trackDat[0]
     for(const cmd of track.commands){
