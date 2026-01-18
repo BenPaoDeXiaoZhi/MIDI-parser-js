@@ -25,6 +25,11 @@ class PointerView{
     return this.view.getUint32(this.pointer-4);
   }
   
+  readUint16(){
+    this.pointer += 2;
+    return this.view.getUint16(this.pointer-2);
+  }
+  
   readUint8(){
     return this.view.getUint8(this.pointer++)
   }
@@ -63,7 +68,8 @@ function readChunk(view){
 
 function readHeader(view, chunk){
   console.log("hd",chunk);
-  chunk.format = view.readUint8();
+  chunk.format = view.readUint16();
+  chunk.tracks = view.readUint16();
   return chunk;
 }
 
