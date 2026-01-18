@@ -153,7 +153,7 @@ function readDelta(view){
   const mask = 0xff >> 1 // last 7 bit
   while(1){
     const time = view.readUint8();
-    delta = delta << 7 + time & mask;
+    delta = (delta << 7) + (time & mask);
     if(time>>7 == 0){ // 0xxxxxxx
       break
     }
