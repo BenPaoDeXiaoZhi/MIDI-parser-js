@@ -94,6 +94,7 @@ function readChunk(view, config){
   else if(chunk.type == TRACK_CHUNK){
     while(1){
       const cmd=readCommand(view);
+      console.log(cmd);
       chunk.commands.push(cmd);
       if(cmd.metaType=="2f"){
         break;
