@@ -5,6 +5,15 @@ const CHUNK_TYPES = {
   MThd:HEADER_CHUNK,
   MTrk:TRACK_CHUNK
 };
+const ARG_NUMS = {
+  8:2,
+  9:2,
+  a:2,
+  b:2,
+  c:1,
+  d:1,
+  e:2
+}
 
 class PointerView{
   constructor(buffer){
@@ -37,7 +46,7 @@ class PointerView{
   readHex(bytes=1){
     let ret = "";
     for(let i=0; i<bytes; i++){
-      ret += this.readUint8().toString(16).padStart("0",2);
+      ret += this.readUint8().toString(16).padStart(2, "0");
     }
     return ret;
   }
@@ -100,13 +109,22 @@ function readHeader(view, chunk){
 }
 
 function readCommand(view){
-  const command = {
-    type: null,
-    delta: null,
-  }
-  let type;
   const delta = readDelta(view);
-  console.log(delta, view.readHex(10));
+  const type = view.readHex(1);
+  const args = [];
+  if(ARG_NUMS[type[0]]){
+    for(let i=0;i<ARG_NUMS[type[0]];i++){
+      args.push(view.readUint8());
+    }
+  }else{
+    throw new Error(type,delta,view.readHex(10))
+  }
+  const command = {
+    type,
+    delta,
+    args
+  }
+  console.log(command);
 }
 
 function readDelta(view){
