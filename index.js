@@ -33,6 +33,14 @@ class PointerView{
   readUint8(){
     return this.view.getUint8(this.pointer++)
   }
+  
+  readHex(bytes=1){
+    let ret = "";
+    for(let i=0; i<bytes; i++){
+      ret += this.readUint8().toString(16).padStart("0",2);
+    }
+    return ret;
+  }
 }
 
 const form = document.getElementById("form");
@@ -97,7 +105,7 @@ function readCommand(view){
   }
   let type;
   for(;!type;type=view.readUint8()){}
-  console.log(type, view.readUint8());
+  console.log(type, view.readHex(10));
 }
 
 })()
