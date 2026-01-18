@@ -100,7 +100,7 @@ function parse(buf){
   }
   readChunk(view, config);
   for(let i=0;i<config.tracks;i++){
-    trackDat.push(readChunk(view, config))
+    config.trackDat.push(readChunk(view, config))
   }
   return config;
 }
