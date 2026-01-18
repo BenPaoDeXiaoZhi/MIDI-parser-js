@@ -17,6 +17,8 @@
       </label>
     </form>
     <script>
+      (()=>{
+
       const tip=document.getElementById("tip");
       const input=document.getElementById("input");
       input.addEventListener("change",(e)=>{
@@ -24,6 +26,8 @@
         const file = input.files[0]
         tip.innerText = `upload file(${file.name})`;
       })
+
+      })()
     </script>
     <style>
       input {
