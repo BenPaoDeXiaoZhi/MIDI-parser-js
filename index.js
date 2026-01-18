@@ -71,6 +71,7 @@ form.addEventListener("submit", (e)=>{
 
 function compile(dat){
   let ret = `let B=0;\n`
+  let mspb = 500;
   if(dat.tracks==1){
     const track = dat.trackDat[0]
     for(const cmd of track.commands){
@@ -83,13 +84,13 @@ function compile(dat){
               (args[0] << 16) +
               (args[1] << 8)  +
               args[2]
-            console.log(usPerBeat)
-            ret += `music.setTempo(60/${usPerBeat/(1000**2)});\nB=music.beat();\n`
+            console.log(usPerBeat);
+            mspb = usPerBeat * 1000;
           }
           break
         case "90":
           if(delta){
-            ret += `basic.pause(B * ${delta / dat.tpd});\n`
+            ret += `basic.pause(${mspb * delta / dat.tpb});\n`
           }
           if(args[1] > 20){
             ret += `music.ringTone(${Math.round(2 ** ((args[0]-64) / 12) * 440)});\n`
